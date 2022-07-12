@@ -4,6 +4,7 @@ import { updateUser, userLogout } from "../redux/actions/userActions";
 import { Link } from "react-router-dom";
 import arrowRight from "../assets/svg/keyboardArrowRightIcon.svg";
 import homeIcon from "../assets/svg/homeIcon.svg";
+import { toast } from "react-toastify";
 
 function Profile() {
   const user = useSelector((state) => state.userReducer);
@@ -37,7 +38,7 @@ function Profile() {
       const data = { ...formData, curId: user.id };
       dispatch(updateUser(data));
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
   return (
