@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { v4 } from "uuid";
 import { addListings } from '../redux/actions/listing'
+import Spinner from '../components/Spinner';
 
 
 function CreateLisitng() {
   const { loggedIn, userRef } = useSelector((state) => state.userReducer);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
     useEffect(() => {
@@ -52,6 +54,7 @@ function CreateLisitng() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const urls = await handleImages();
     const data = {
       id: formData.id,
@@ -62,9 +65,9 @@ function CreateLisitng() {
       bathrooms: parseInt(formData.bathrooms),
       parking: formData.parking,
       furnished: formData.furnished,
-      offer: formData.offer,
+      offer: (parseInt(formData.discountedPrice)===parseInt(formData.regularPrice) )? false : true,
       regularPrice: parseInt(formData.regularPrice),
-      discountedPrice: parseInt(formData.discountedPrice),
+      discountedPrice: (parseInt(formData.discountedPrice)===parseInt(formData.regularPrice) )? 0 : parseInt(formData.discountedPrice),
       location: formData.location,
       geoLocation: {
         lat: parseFloat(formData.latitude),
@@ -73,6 +76,8 @@ function CreateLisitng() {
       imageUrls: urls,
     };
     dispatch(addListings(data));
+    setLoading(false);
+    navigate(`/category/${formData.type}`);
   };
   const onMutate = (e) => {
     let boolean = null;
@@ -91,6 +96,10 @@ function CreateLisitng() {
       }));
     }
   };
+
+  if(loading)
+    return <Spinner />
+  
   return (
     <div className="profile">
       <header>

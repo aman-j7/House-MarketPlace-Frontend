@@ -3,11 +3,13 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../redux/actions/userActions";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
+import Spinner from '../components/Spinner'; 
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
 function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -23,9 +25,16 @@ function SignIn() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     dispatch(getUser(formData));
+    setLoading(false);
     navigate("/");
   };
+
+  if(loading){
+    return <Spinner />
+  }
+
   return (
     <>
       <div className="pageContainer">

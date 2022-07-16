@@ -4,7 +4,7 @@ export function requestGetListing(action){
     return axios.get(`http://localhost:9012/getListings/${action.payload}`);
 }
 
-export function requestGetListingOffers(action){
+export function requestGetListingOffers(){
     return axios.get('http://localhost:9012/getListingsOffers');
 }
 
