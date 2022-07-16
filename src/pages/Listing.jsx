@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/css';
 import shareIcon from "../assets/svg/shareIcon.svg";
+
+SwiperCore.use([ Navigation, Pagination, Scrollbar, A11y]);
+
 function Listing() {
   const { listing } = useSelector((state) => state.listingReducer);
   const params = useParams();
@@ -16,14 +23,22 @@ function Listing() {
       curListing = listing[i];
     }
   }
+
   useEffect(() => {
-    if (curListing === null) {
+    if (curListing === null || listing === null) {
       navigate(`/category/${type}`);
     }
-  }, [navigate, curListing, type]);
-
+  }, [navigate, curListing, listing, type]);
+  
   return (
     <main>
+      <Swiper slidesPerView={1} pagination={{ clickable: true }}>
+        {curListing.imageUrls.map((url, index) => (
+          <SwiperSlide key={index}>
+            <img src={url} alt={index} className='swiperSlideDiv'/>
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <div
         className="shareIconDiv"
         onClick={() => {
@@ -68,6 +83,27 @@ function Listing() {
           <li>{curListing.furnished && "Furnished"}</li>
         </ul>
         <p className="listingLocationTitle">Location</p>
+        <div className="leafletContainer">
+          <MapContainer
+            style={{ height: "100%", width: "100%" }}
+            center={[curListing.geoLocation.lat, curListing.geoLocation.lng]}
+            zoom={13}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
+            />
+            <Marker
+              position={[
+                curListing.geoLocation.lat,
+                curListing.geoLocation.lng,
+              ]}
+            >
+              <Popup>{curListing.location}</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
         <Link
           to={`/contact/${curListing.userRef}?listingName=${curListing.name}`}
           className="primaryButton"
