@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link } from "react-router-dom";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/css';
+import "swiper/css";
 import shareIcon from "../assets/svg/shareIcon.svg";
+import Spinner from "../components/Spinner";
+import { setLoading, getListings } from "../redux/actions/listing";
 
-SwiperCore.use([ Navigation, Pagination, Scrollbar, A11y]);
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 function Listing() {
-  const { listing } = useSelector((state) => state.listingReducer);
+  const { listing, loading } = useSelector((state) => state.listingReducer);
+  const dispatch = useDispatch();
   const params = useParams();
-  const navigate = useNavigate();
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
   const id = params.listingId;
   const type = params.categoryName;
   let curListing = null;
+
+  useEffect(() => {
+    dispatch(setLoading());
+    dispatch(getListings(type));
+  }, [dispatch, type]);
 
   for (let i = 0; i < listing.length; i++) {
     if (listing[i].id === id) {
@@ -24,18 +31,16 @@ function Listing() {
     }
   }
 
-  useEffect(() => {
-    if (curListing === null || listing === null) {
-      navigate(`/category/${type}`);
-    }
-  }, [navigate, curListing, listing, type]);
-  
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <main>
       <Swiper slidesPerView={1} pagination={{ clickable: true }}>
         {curListing.imageUrls.map((url, index) => (
           <SwiperSlide key={index}>
-            <img src={url} alt={index} className='swiperSlideDiv'/>
+            <img src={url} alt={index} className="swiperSlideDiv" />
           </SwiperSlide>
         ))}
       </Swiper>

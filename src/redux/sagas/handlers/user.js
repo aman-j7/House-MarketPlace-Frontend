@@ -33,8 +33,8 @@ function* handleAddUser(action) {
 
 function* handleUpdateUser(action) {
   try {
-    const response =yield call(requestUpdateUser, action);
-    if(response.data){
+    const response = yield call(requestUpdateUser, action);
+    if (response.data) {
       yield put(setUser(response.data));
     }
   } catch (error) {

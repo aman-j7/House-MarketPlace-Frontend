@@ -1,25 +1,41 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser, userLogout } from "../redux/actions/userActions";
+import {
+  deleteUserListing,
+  getUserListing,
+  setLoading,
+} from "../redux/actions/listing";
 import { Link } from "react-router-dom";
 import arrowRight from "../assets/svg/keyboardArrowRightIcon.svg";
 import homeIcon from "../assets/svg/homeIcon.svg";
 import { toast } from "react-toastify";
+import ListItem from "../components/ListItem";
+import Spinner from "../components/Spinner";
 
 function Profile() {
   const user = useSelector((state) => state.userReducer);
+  const { listing, loading } = useSelector((state) => state.listingReducer);
   const dispatch = useDispatch();
   const [changeDetails, setChangeDetails] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
   });
+  const [curListing, setCurListing] = useState([]);
+
   useEffect(() => {
+    dispatch(setLoading());
     setFormData({
       email: user.id,
       name: user.name,
     });
-  }, [user]);
+    dispatch(getUserListing(user.userRef));
+  }, [user, dispatch]);
+
+  useEffect(() => {
+    setCurListing(listing);
+  }, [listing]);
 
   const { name, email } = formData;
   const onLogout = () => {
@@ -41,6 +57,20 @@ function Profile() {
       toast.error(error.message);
     }
   };
+
+  const onDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete ?")) {
+      dispatch(deleteUserListing(id));
+      const updatedListing = curListing.filter((list) => list.id !== id);
+      setCurListing(updatedListing);
+      toast.success("Deleted Successfully.");
+    }
+  };
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <div className="profile">
@@ -90,6 +120,18 @@ function Profile() {
             <p>Sell or Rent your Home</p>
             <img src={arrowRight} alt="arrow rigth" />
           </Link>
+          <p className="listingText">Your Listings</p>
+          <ul className="listingList">
+            {curListing.map((list) => (
+              <ListItem
+                key={list.id}
+                listing={list}
+                id={list.id}
+                onDelete={onDelete}
+                onEdit={true}
+              />
+            ))}
+          </ul>
         </main>
       </div>
     </>

@@ -1,39 +1,36 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { v4 } from "uuid";
-import { addListings } from "../redux/actions/listing";
+import { updateListing } from "../redux/actions/listing";
 import Spinner from "../components/Spinner";
 
-function CreateLisitng() {
-  const { loggedIn, userRef } = useSelector((state) => state.userReducer);
+function EditLisitng() {
+  const { listing } = useSelector((state) => state.listingReducer);
   const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const listingId = params.listingId;
+  const curListing = listing.filter((list) => list.id === listingId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (!loggedIn) {
-      navigate("/sign-in");
-    }
-  }, [navigate, loggedIn]);
-
   const [formData, setFormData] = useState({
-    id: v4(),
-    name: "",
-    type: "rent",
-    userRef: userRef,
-    bedrooms: 0,
-    bathrooms: 0,
-    parking: false,
-    furnished: false,
-    offer: false,
-    regularPrice: 0,
-    discountedPrice: 0,
-    location: "",
-    latitude: 0,
-    longitude: 0,
-    imageUrls: [],
+    id: curListing[0].id,
+    name: curListing[0].name,
+    type: curListing[0].type,
+    userRef: curListing[0].userRef,
+    bedrooms: curListing[0].bedrooms,
+    bathrooms: curListing[0].bathrooms,
+    parking: curListing[0].parking,
+    furnished: curListing[0].furnished,
+    offer: curListing[0].offer,
+    regularPrice: curListing[0].regularPrice,
+    discountedPrice: curListing[0].discountedPrice,
+    location: curListing[0].location,
+    latitude: curListing[0].geoLocation.lat,
+    longitude: curListing[0].geoLocation.lng,
+    imageUrls: curListing[0].imageUrls,
   });
+
   const handleImages = async () => {
     var urls = [];
     const data = new FormData();
@@ -63,16 +60,9 @@ function CreateLisitng() {
       bathrooms: parseInt(formData.bathrooms),
       parking: formData.parking,
       furnished: formData.furnished,
-      offer:
-        parseInt(formData.discountedPrice) !== 0 &&
-        parseInt(formData.discountedPrice) < parseInt(formData.regularPrice)
-          ? true
-          : false,
+      offer: formData.offer,
       regularPrice: parseInt(formData.regularPrice),
-      discountedPrice:
-        parseInt(formData.discountedPrice) === parseInt(formData.regularPrice)
-          ? 0
-          : parseInt(formData.discountedPrice),
+      discountedPrice: parseInt(formData.discountedPrice),
       location: formData.location,
       geoLocation: {
         lat: parseFloat(formData.latitude),
@@ -80,9 +70,9 @@ function CreateLisitng() {
       },
       imageUrls: urls,
     };
-    dispatch(addListings(data));
+    dispatch(updateListing(listingId, data));
     setLoading(false);
-    navigate(`/category/${formData.type}`);
+    navigate(`/profile`);
   };
   const onMutate = (e) => {
     let boolean = null;
@@ -107,7 +97,7 @@ function CreateLisitng() {
   return (
     <div className="profile">
       <header>
-        <p className="pageHeader">Create a Listing</p>
+        <p className="pageHeader">Edit Listing</p>
       </header>
       <main>
         <form onSubmit={onSubmit}>
@@ -338,7 +328,7 @@ function CreateLisitng() {
             required
           />
           <button type="submit" className="primaryButton createListingButton">
-            Create Listing
+            Update Listing
           </button>
         </form>
       </main>
@@ -346,4 +336,4 @@ function CreateLisitng() {
   );
 }
 
-export default CreateLisitng;
+export default EditLisitng;
