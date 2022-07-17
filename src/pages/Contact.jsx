@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from '../components/Spinner';
+import Spinner from "../components/Spinner";
 
 function Contact() {
   const [message, setMessage] = useState("");
@@ -14,7 +14,7 @@ function Contact() {
   useEffect(() => {
     const getLandlord = async () => {
       setLoading(true);
-      const url = "http://localhost:9012/getUser/" + userRef;
+      const url = "https://house-marketplace-api.herokuapp.com/getUser/" + userRef;
       await axios
         .get(url)
         .then((response) => {
@@ -23,7 +23,7 @@ function Contact() {
         .catch((error) => {
           toast.error(error.message);
         });
-        setLoading(false);
+      setLoading(false);
     };
     getLandlord();
   }, [userRef]);
@@ -31,8 +31,8 @@ function Contact() {
   const onChange = (e) => {
     setMessage(e.terget.value);
   };
-  if(loading){
-    return <Spinner />
+  if (loading) {
+    return <Spinner />;
   }
   return (
     <div className="pageContainer">

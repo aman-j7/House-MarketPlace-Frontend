@@ -10,7 +10,7 @@ function EditLisitng() {
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const listingId = params.listingId;
-  const curListing = listing.filter((list)=> list.id === listingId);
+  const curListing = listing.filter((list) => list.id === listingId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ function EditLisitng() {
     longitude: curListing[0].geoLocation.lng,
     imageUrls: curListing[0].imageUrls,
   });
- 
+
   const handleImages = async () => {
     var urls = [];
     const data = new FormData();
@@ -70,7 +70,7 @@ function EditLisitng() {
       },
       imageUrls: urls,
     };
-    dispatch(updateListing(listingId,data));
+    dispatch(updateListing(listingId, data));
     setLoading(false);
     navigate(`/profile`);
   };

@@ -3,20 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { v4 } from "uuid";
-import { addListings } from '../redux/actions/listing'
-import Spinner from '../components/Spinner';
-
+import { addListings } from "../redux/actions/listing";
+import Spinner from "../components/Spinner";
 
 function CreateLisitng() {
   const { loggedIn, userRef } = useSelector((state) => state.userReducer);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-    useEffect(() => {
-      if (!loggedIn) {
-        navigate("/sign-in");
-      }
-    }, [navigate, loggedIn]);
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate("/sign-in");
+    }
+  }, [navigate, loggedIn]);
 
   const [formData, setFormData] = useState({
     id: v4(),
@@ -35,19 +34,18 @@ function CreateLisitng() {
     longitude: 0,
     imageUrls: [],
   });
-  const handleImages =  async () => {
-    var urls =[];
+  const handleImages = async () => {
+    var urls = [];
     const data = new FormData();
-    const  images = [...formData.imageUrls];
-    for(const image of images){
+    const images = [...formData.imageUrls];
+    for (const image of images) {
       data.append("file", image);
       data.append("upload_preset", "zhtzatxk");
-      const response = await axios
-        .post(
-          "https://api.cloudinary.com/v1_1/dch73khsd/image/upload",
-          data,
-        );
-        urls.push(response.data.url);
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dch73khsd/image/upload",
+        data
+      );
+      urls.push(response.data.url);
     }
     return urls;
   };
@@ -65,9 +63,16 @@ function CreateLisitng() {
       bathrooms: parseInt(formData.bathrooms),
       parking: formData.parking,
       furnished: formData.furnished,
-      offer: ( parseInt(formData.discountedPrice)!==0 && parseInt(formData.discountedPrice) < parseInt(formData.regularPrice) )? true : false,
+      offer:
+        parseInt(formData.discountedPrice) !== 0 &&
+        parseInt(formData.discountedPrice) < parseInt(formData.regularPrice)
+          ? true
+          : false,
       regularPrice: parseInt(formData.regularPrice),
-      discountedPrice: (parseInt(formData.discountedPrice)===parseInt(formData.regularPrice) )? 0 : parseInt(formData.discountedPrice),
+      discountedPrice:
+        parseInt(formData.discountedPrice) === parseInt(formData.regularPrice)
+          ? 0
+          : parseInt(formData.discountedPrice),
       location: formData.location,
       geoLocation: {
         lat: parseFloat(formData.latitude),
@@ -97,9 +102,8 @@ function CreateLisitng() {
     }
   };
 
-  if(loading)
-    return <Spinner />
-  
+  if (loading) return <Spinner />;
+
   return (
     <div className="profile">
       <header>

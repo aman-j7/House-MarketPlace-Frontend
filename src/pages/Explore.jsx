@@ -24,7 +24,7 @@ function Explore() {
   useEffect(() => {
     dispatch(getListings("all"));
     setLoading(loading);
-  }, [dispatch,loading]);
+  }, [dispatch, loading]);
 
   if (isLoading) {
     return <Spinner />;
@@ -34,7 +34,7 @@ function Explore() {
     toast.error(error);
     dispatch(userErrorUnset());
   }
-  
+
   return (
     <div className="explore">
       <header>
@@ -43,13 +43,17 @@ function Explore() {
       <main>
         <p className="exploreHeading">Recommended</p>
         <Swiper slidesPerView={1} pagination={{ clickable: true }}>
-        { listing.map((list, index) => (
-          <SwiperSlide key={index}>
-            <img src={list.imageUrls[0]} alt={list.name} className='swiperSlideDiv' 
-              onClick={()=> navigate(`/category/${list.type}/${list.id}`)} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+          {listing.map((list, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={list.imageUrls[0]}
+                alt={list.name}
+                className="swiperSlideDiv"
+                onClick={() => navigate(`/category/${list.type}/${list.id}`)}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
         <div className="exploreCategoryHeading">Categories</div>
         <div className="exploreCategories">
           <Link to="/category/rent">

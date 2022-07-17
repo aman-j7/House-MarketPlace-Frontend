@@ -4,12 +4,12 @@ import { useParams, Link } from "react-router-dom";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/css';
+import "swiper/css";
 import shareIcon from "../assets/svg/shareIcon.svg";
 import Spinner from "../components/Spinner";
 import { setLoading, getListings } from "../redux/actions/listing";
 
-SwiperCore.use([ Navigation, Pagination, Scrollbar, A11y]);
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 function Listing() {
   const { listing, loading } = useSelector((state) => state.listingReducer);
@@ -29,10 +29,10 @@ function Listing() {
     if (listing[i].id === id) {
       curListing = listing[i];
     }
-  }  
-  
-  if(loading){
-    return <Spinner />
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
@@ -40,7 +40,7 @@ function Listing() {
       <Swiper slidesPerView={1} pagination={{ clickable: true }}>
         {curListing.imageUrls.map((url, index) => (
           <SwiperSlide key={index}>
-            <img src={url} alt={index} className='swiperSlideDiv'/>
+            <img src={url} alt={index} className="swiperSlideDiv" />
           </SwiperSlide>
         ))}
       </Swiper>

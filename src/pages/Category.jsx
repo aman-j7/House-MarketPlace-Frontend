@@ -26,13 +26,13 @@ function Category() {
         <Spinner />
       ) : listing && listing.length > 0 ? (
         <>
-        <main>
-          <ul className="categoryListings">
-            {listing.map((list)=>(
-              <ListItem key={list.id} listing={list} id={list.id} />
-            ))}
-          </ul>
-        </main>
+          <main>
+            <ul className="categoryListings">
+              {listing.map((list) => (
+                <ListItem key={list.id} listing={list} id={list.id} />
+              ))}
+            </ul>
+          </main>
         </>
       ) : (
         <p>No listings available for {type}</p>

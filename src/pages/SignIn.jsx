@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../redux/actions/userActions";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
-import Spinner from '../components/Spinner'; 
+import Spinner from "../components/Spinner";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
 function SignIn() {
@@ -31,8 +31,8 @@ function SignIn() {
     navigate("/");
   };
 
-  if(loading){
-    return <Spinner />
+  if (loading) {
+    return <Spinner />;
   }
 
   return (

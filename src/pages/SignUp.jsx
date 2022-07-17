@@ -7,28 +7,28 @@ import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 import { addUser } from "../redux/actions/userActions";
 
 function SignUp() {
-  const disptach = useDispatch()
+  const disptach = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name : "",
+    name: "",
     email: "",
     password: "",
     userRef: v4(),
   });
-  const {name, email, password} = formData;
+  const { name, email, password } = formData;
   const navigate = useNavigate();
 
   const onChange = (e) => {
-    setFormData((prevState)=>({
+    setFormData((prevState) => ({
       ...prevState,
-      [e.target.id] : e.target.value
-    }))
-  }
-  const onSubmit = (e) =>{
-    e.preventDefault()
-    disptach(addUser(formData))
-    navigate('/sign-in');
-  }
+      [e.target.id]: e.target.value,
+    }));
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    disptach(addUser(formData));
+    navigate("/sign-in");
+  };
 
   return (
     <>
@@ -37,7 +37,7 @@ function SignUp() {
           <p className="pageHeader">Welcome Back !</p>
         </header>
         <form onSubmit={onSubmit}>
-        <input
+          <input
             type="text"
             className="nameInput"
             id="name"
@@ -78,7 +78,7 @@ function SignUp() {
               <ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
             </button>
           </div>
-          <Link to='/sign-in' className="registerLink">
+          <Link to="/sign-in" className="registerLink">
             Sign In Instead
           </Link>
         </form>

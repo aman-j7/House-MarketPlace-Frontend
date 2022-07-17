@@ -10,7 +10,7 @@ function ForgotPassword() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('change Pass');
+    console.log("change Pass");
   };
 
   return (
