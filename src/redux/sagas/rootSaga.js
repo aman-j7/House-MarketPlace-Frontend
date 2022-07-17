@@ -1,14 +1,24 @@
-import { all} from 'redux-saga/effects';
-import { watchAddListing, watchGetListing, watchGetListingOffers } from './handlers/listing';
-import { watchGetUser,watchAddUser, watchUpdateUser} from './handlers/user';
+import { all } from "redux-saga/effects";
+import {
+  watchAddListing,
+  watchDeleteUserListing,
+  watchGetListing,
+  watchGetListingOffers,
+  watchGetUserListing,
+  watchUpdateListing,
+} from "./handlers/listing";
+import { watchGetUser, watchAddUser, watchUpdateUser } from "./handlers/user";
 
-export function* watcherSaga(){
-    yield all([
-        watchGetUser(),
-        watchAddUser(),
-        watchUpdateUser(),
-        watchGetListing(),
-        watchGetListingOffers(),
-        watchAddListing(),
-    ]);
+export function* watcherSaga() {
+  yield all([
+    watchGetUser(),
+    watchAddUser(),
+    watchUpdateUser(),
+    watchGetListing(),
+    watchGetListingOffers(),
+    watchAddListing(),
+    watchGetUserListing(),
+    watchDeleteUserListing(),
+    watchUpdateListing(),
+  ]);
 }

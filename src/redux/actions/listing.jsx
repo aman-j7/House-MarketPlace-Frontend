@@ -6,7 +6,7 @@ export const getListings= (type) =>{
         payload : type,
     }
 }
-//hello world
+
 export const addListings= (data) =>{
     return {
         type : ActionTypes.ADD_LISTINGS,
@@ -48,5 +48,29 @@ export const unsetLoading= ()=>{
 export const setLoading= ()=>{
     return {
         type : ActionTypes.SET_LISTING_LOADING,
+    }
+}
+
+export const getUserListing= (id)=>{
+    return {
+        type : ActionTypes.GET_USER_LISTINGS,
+        payload : id,
+    }
+}
+
+export const deleteUserListing=(id)=>{
+    return {
+        type : ActionTypes.DELETE_USER_LISTING,
+        payload : id,
+    }
+}
+
+export const updateListing= (id, data) =>{
+    return {
+        type : ActionTypes.UPDATE_LISTING,
+        payload : {
+            id,
+            data,
+        },
     }
 }

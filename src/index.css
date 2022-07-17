@@ -329,8 +329,9 @@ button {
 .swiperSlideDiv {
   position: relative;
   margin-left: 330px;
+  height: 400px;
   width: 800px;
-  height: 500px;
+  border-radius: 1.5rem;
 }
 
 .swiperSlideImg {

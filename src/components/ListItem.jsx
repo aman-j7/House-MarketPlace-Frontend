@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg";
+import { ReactComponent as EditIcon } from "../assets/svg/editIcon.svg";
 import bedIcon from "../assets/svg/bedIcon.svg";
 import bathtubIcon from "../assets/svg/bathtubIcon.svg";
 
-function ListItem({ listing, id, onDelete }) {
+function ListItem({ listing, id, onDelete, onEdit }) {
+  const navigate = useNavigate();
   return (
     <li className="categoryListing">
       <Link
@@ -34,7 +36,8 @@ function ListItem({ listing, id, onDelete }) {
           </div>
         </div>
       </Link>
-      {onDelete && (<DeleteIcon className="removeIcon" fill="rgb(231,76,60)" width='34px' height='34px'/>)}
+      {onDelete && (<DeleteIcon className="removeIcon" fill="rgb(231,76,60)" width='34px' height='34px' onClick={()=>onDelete(listing.id)}/>)}
+      {onEdit && (<EditIcon className="editIcon" width='34px' height='34px' onClick={()=>navigate(`/edit-listing/${listing.id}`)}/>)}
     </li>
   );
 }

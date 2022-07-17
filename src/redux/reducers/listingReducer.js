@@ -15,7 +15,7 @@ export const listingReducer = (state= initialState, {type, payload})=>{
             return {...state, error : payload}
         case ActionTypes.UNSET_ERROR_LOADING :
             return {...state,error : null};
-        case ActionTypes.UNSET_LISITNG_LOADING:
+        case ActionTypes.UNSET_LISTING_LOADING:
             return {...state, loading : false};
         case ActionTypes.SET_LISTING_LOADING:
             return {...state,loading : true};
