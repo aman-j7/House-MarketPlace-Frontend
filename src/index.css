@@ -3,10 +3,6 @@
   box-sizing: border-box;
 }
 
-html::-webkit-scrollbar {
-  display: none;
-}
-
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #f2f4f8;
@@ -342,8 +338,8 @@ button {
 .swiperSlideText {
   color: #ffffff;
   position: absolute;
-  top: 70px;
-  left: 0;
+  top: 290px;
+  left: 330px;
   font-weight: 600;
   max-width: 90%;
   font-size: 1.25rem;
@@ -359,8 +355,8 @@ button {
 .swiperSlidePrice {
   color: #000000;
   position: absolute;
-  top: 143px;
-  left: 11px;
+  top: 350px;
+  left: 335px;
   font-weight: 600;
   max-width: 90%;
   background-color: #ffffff;

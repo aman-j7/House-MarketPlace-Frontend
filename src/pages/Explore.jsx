@@ -51,6 +51,8 @@ function Explore() {
                 className="swiperSlideDiv"
                 onClick={() => navigate(`/category/${list.type}/${list.id}`)}
               />
+              <p className="swiperSlideText">{list.name}</p>
+              <p className="swiperSlidePrice">{`$${list.regularPrice}`}</p>
             </SwiperSlide>
           ))}
         </Swiper>
